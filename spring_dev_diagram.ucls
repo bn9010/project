@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.14" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+  <class id="1" language="java" name="com.main.one.vopage.SearchVo2" project="homepage_6.12" 
+    file="/homepage_6.12/src/main/java/com/main/one/vopage/SearchVo2.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="193" width="180" x="285" y="38"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="com.main.one.vopage.SearchVo" project="homepage_6.12" 
+    file="/homepage_6.12/src/main/java/com/main/one/vopage/SearchVo.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="194" width="180" x="54" y="35"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="com.main.one.vopage.PageVo" project="homepage_6.12" 
+    file="/homepage_6.12/src/main/java/com/main/one/vopage/PageVo.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="226" width="191" x="46" y="292"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="com.main.one.vopage.PageVo2" project="homepage_6.12" 
+    file="/homepage_6.12/src/main/java/com/main/one/vopage/PageVo2.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="223" width="191" x="278" y="295"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="5" language="java" name="com.main.one.dao.IDao" project="homepage_6.12" 
+    file="/homepage_6.12/src/main/java/com/main/one/dao/IDao.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="241" width="202" x="870" y="270"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="6" language="java" name="com.main.one.RecipeController" project="homepage_6.12" 
+    file="/homepage_6.12/src/main/java/com/main/one/RecipeController.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="223" width="298" x="512" y="26"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="com.main.one.dto.BoardDto" project="homepage_6.12" 
+    file="/homepage_6.12/src/main/java/com/main/one/dto/BoardDto.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="200" width="201" x="868" y="23"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="com.main.one.SearchController" project="homepage_6.12" 
+    file="/homepage_6.12/src/main/java/com/main/one/SearchController.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="667" y="371"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <generalization id="9">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="3"/>  
+  </generalization>  
+  <generalization id="10">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="4"/>  
+  </generalization>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

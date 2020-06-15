@@ -1,0 +1,83 @@
+@charset "UTF-8";
+body{
+background:
+    radial-gradient(black 3px, transparent 4px),
+    radial-gradient(black 3px, transparent 4px),
+    linear-gradient(#fff 4px, transparent 0),
+    linear-gradient(45deg, transparent 74px, transparent 75px, #a4a4a4 75px, #a4a4a4 76px, transparent 77px, transparent 109px),
+    linear-gradient(-45deg, transparent 75px, transparent 76px, #a4a4a4 76px, #a4a4a4 77px, transparent 78px, transparent 109px),
+    #fff;
+    background-size: 109px 109px, 109px 109px,100% 6px, 109px 109px, 109px 109px;
+    background-position: 54px 55px, 0px 0px, 0px 0px, 0px 0px, 0px 0px;
+}
+
+#title{
+	 background-image: url(../images/banner.jpg);
+	background-color: rgba(75, 75, 93, 0.85);
+	background-blend-mode:multiply;
+	height: 200px;
+	
+}
+.headera{
+	color: #fff;
+	text-decoration: none;
+	
+}
+.headera:hover {
+	transition: color 1s ease-in-out;
+	color: #f48e8e;
+	text-decoration: none;
+}
+.diva{
+	color: #fff;
+	text-decoration: none;
+}
+.diva:hover {
+	transition: color 1s ease-in-out;
+	color: #f48e8e;
+	text-decoration: none;
+}
+#question:hover {
+	border-bottom: 2px solid black;
+}
+
+.mypagequ:hover{
+	text-decoration: none;
+	
+}
+.mypagequ2:hover{
+	text-decoration: none;
+	
+}
+
+.tab_content input[type="radio"]{
+	display: none;
+	text-decoration: underline;
+}
+.tab_content input[type="radio"] + label{
+	display: inline-block;
+	pause: 20px;
+	background: #D9EDF7;
+	color: black;
+	font-size: 14px;
+	cursor: pointer;
+}
+.tab_content input[type="radio"]:checked + label{
+	background: #D9EDF7;
+	color: #337AB7;
+}
+.conbox {
+	
+		width: 900px;
+		height: 500px;
+		background: #D9EDF7;
+		display: none;
+}
+.tab_content input[id="tab01"]:checked ~ .con1{
+	display: block;
+	
+}
+.tab_content input[id="tab02"]:checked ~ .con2{
+	display: block;
+
+}

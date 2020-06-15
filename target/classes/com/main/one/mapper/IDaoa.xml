@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.main.one.dao.IDaoa">
+  
+    <select id="anotice" resultType="com.main.one.dto.MainnoticeDto">
+    	SELECT ANUM,AID,ATITLE,
+					ACONTENT,ADATE,AHIT
+				FROM ADMINNOTICE
+		ORDER BY ASTEP DESC,AINDENT ASC
+    </select>
+    
+    <select id="selectBoardCount" resultType="Integer">
+		SELECT COUNT(*) FROM ADMINNOTICE
+	</select>
+	
+		<select id="admin_view" resultType="com.main.one.dto.MainnoticeDto">
+		SELECT * FROM ADMINNOTICE WHERE ANUM=#{param1}
+	</select>
+	
+		<select id="main_view" resultType="com.main.one.dto.MainnoticeDto">
+		SELECT * FROM ADMINNOTICE WHERE ANUM=#{param1}
+	</select>
+	
+	<insert id="awrite">
+		
+	 INSERT INTO ADMINNOTICE
+	(ANUM,AID,ACATEGORY,ATITLE,ACONTENT,AHIT,ASTEP,AINDENT)
+	VALUES(ADMINNOTICE_SEQ.NEXTVAL,'ADMIN',#{param1},#{param2},#{param3},0,
+	ADMINNOTICE_SEQ.CURRVAL,0)
+	</insert>	
+	
+	
+	<delete id="adelete" >
+		DELETE FROM ADMINNOTICE WHERE ANUM=#{param1}
+	</delete>
+	<update id="aupHit">
+	UPDATE ADMINNOTICE SET AHIT=AHIT+1 WHERE ANUM=#{param1}
+	</update>
+	
+	<update id="amodify">
+		UPDATE ADMINNOTICE SET AID='ADMIN',
+		ACATEGORY=#{param2},ATITLE=#{param3},ACONTENT=#{param4}
+					 WHERE ANUM=#{param1}
+		</update>
+	
+<!--mainnotice 댓글  -->
+	<insert id="mreply_write">
+	INSERT INTO MREPLY VALUES(#{param1},MREPLY_SEQ.NEXTVAL,'test',#{param2},SYSDATE,MREPLY_SEQ.CURRVAL,0,0)
+	</insert>
+	
+	<delete id="mreply_delete">
+	DELETE FROM MREPLY WHERE MRNUM=#{param1}
+	</delete>
+	
+	<select id="mreply_list" resultType="com.main.one.dto.MainnoticeDto">
+	SELECT MRNUM,MRID,MRCONTENT,MRDATE,MRGROUP,MRSTEP,MRINDENT,ANUM FROM
+	(SELECT MRNUM,MRID,MRCONTENT,MRDATE,MRGROUP,MRSTEP,MRINDENT,ANUM, ROW_NUMBER()
+	OVER(ORDER BY MRGROUP DESC, MRSTEP ASC)B_SEQ FROM MREPLY)
+	WHERE B_SEQ BETWEEN 1 AND 30 AND ANUM=#{param1}
+	
+	</select>
+	
+	
+</mapper>

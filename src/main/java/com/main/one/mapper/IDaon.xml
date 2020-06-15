@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+    <mapper namespace="com.main.one.dao.IDaon">
+    <sql id="includeCount2">
+		<choose>
+			<when test="param2==1">
+                     WHERE (NTITLE LIKE '%'||#{param1}||'%')          
+			</when>
+			<when test="param2==2">
+                     WHERE (NCONTENT LIKE '%'||#{param1}||'%')        
+			</when>
+			<when test="param2==3">
+                     WHERE (NTITLE LIKE '%'||#{param1}||'%' or NCONTENT LIKE '%'||#{param1}||'%')         
+			</when>
+			<when test="param2==4">
+				  WHERE (NNAME LIKE '%'||#{param1}||'%')        
+			</when>
+			<otherwise>
+				
+			</otherwise>
+			
+		</choose>
+    </sql>
+	<sql id="includeList2">
+		<choose>
+			<when test="param4==1">
+                     WHERE (NTITLE LIKE '%'||#{param3}||'%')          
+			</when>
+			<when test="param4==2">
+                     WHERE (NCONTENT LIKE '%'||#{param3}||'%')        
+			</when>
+			<when test="param4==3">
+                     WHERE (NTITLE LIKE '%'||#{param3}||'%' or NCONTENT LIKE '%'||#{param3}||'%')         
+			</when>
+			<when test="param4==4">
+                     WHERE (NNAME LIKE '%'||#{param3}||'%')         
+			</when>
+			<otherwise>
+				
+			</otherwise>
+			
+		</choose>
+    </sql>
+    
+    
+    <select id="nnotice" resultType="com.main.one.dto.NoticeDto">
+    	SELECT NID,GID,NNAME,NTITLE,NCONTENT,
+					NDATE,NHIT, 
+					NSTEP,NINDENT FROM NOTICE 
+					ORDER BY NGROUP DESC,NSTEP ASC
+    </select>
+   
+<select id="selectBoardCount" resultType="Integer">
+		SELECT COUNT(*) FROM NOTICE
+	</select>
+			
+			<select id="notice_count" resultType="Integer">
+			SELECT COUNT(*) FROM NOTICE
+			</select>
+   
+    <insert id="nwrite">
+		
+	INSERT INTO NOTICE
+	(NID,GID,NNAME,NTITLE,NCONTENT,NHIT,NGROUP,NSTEP,NINDENT)
+	VALUES(NOTICE_SEQ.NEXTVAL,'test',#{param1},#{param2},#{param3},0,
+	NOTICE_SEQ.CURRVAL,0,0)		 
+	</insert>
+	
+	
+    <select id="notice_view" resultType="com.main.one.dto.NoticeDto">
+		SELECT * FROM NOTICE WHERE NID=#{param1}
+    </select>
+	
+	<select id="notice_mod" resultType="com.main.one.dto.NoticeDto">
+		SELECT * FROM NOTICE WHERE NID=#{param1}
+    </select>
+	
+<delete id="notice_delete" >
+		DELETE FROM NOTICE WHERE NID=#{param1}
+	</delete>
+	<update id="nupHit">
+	UPDATE NOTICE SET NHIT=NHIT+1 WHERE NID=#{param1}
+	</update>
+	
+	<update id="nmodify">
+		UPDATE NOTICE SET NTITLE=#{param2},NCONTENT=#{param3} WHERE NID=#{param1}
+		 </update>
+		 <!--notice 댓글  -->
+	<insert id="nreply_write">
+	INSERT INTO NREPLY VALUES(#{param1},RPNUM_SEQ.NEXTVAL,'test',#{param2},SYSDATE,RPNUM_SEQ.CURRVAL,0,0)
+	</insert>	
+		 
+	<delete id="nreply_delete">
+	DELETE FROM NREPLY WHERE RPNUM=#{param1}
+	</delete>
+	
+	<select id="nreply_modify_view" resultType="com.main.one.dto.NoticeDto">
+	SELECT * FROM NREPLY WHERE RPNUM=#{param1}
+	</select>
+	
+	<update id="nreply_modify">
+	UPDATE NREPLY SET RPCONTENT=#{PARAM1} WHERE RPNUM=#{PARAM2}
+	</update>
+	
+	
+	
+	
+	<select id="nreply_list" resultType="com.main.one.dto.NoticeDto">
+	SELECT RPNUM,RPID,RPCONTENT,RPDATE,RPGROUP,RPSTEP,RPINDENT,NID FROM
+	(SELECT RPNUM,RPID,RPCONTENT,RPDATE,RPGROUP,RPSTEP,RPINDENT,NID, ROW_NUMBER()
+	OVER(ORDER BY RPGROUP DESC, RPSTEP ASC)B_SEQ FROM NREPLY)
+	WHERE B_SEQ BETWEEN 1 AND 30 AND NID=#{PARAM2}
+	</select>
+	
+    </mapper>

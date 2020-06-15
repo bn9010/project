@@ -1,0 +1,148 @@
+//레시피
+create table recipe_board(
+rnum number(4) primary key,
+rid varchar2(20),
+rname varchar2(20),
+rtitle varchar2(100),
+rcategory varchar2(50),
+rserves varchar2(50),
+rtime varchar2(50),
+rlevel varchar2(50),
+rinformation varchar2(1000),
+ringredients varchar2(2000),
+rtip varchar2(2000),
+rfilesrc varchar2(200),
+rdate Date default sysdate,
+rhit number(4) default 0,
+STEP1 varchar2(1000),
+STEP2 varchar2(1000),
+STEP3 varchar2(1000),
+STEP4 varchar2(1000),
+STEP5 varchar2(1000),
+STEP6 varchar2(1000),
+CFILESRC1 varchar2(1000),
+CFILESRC2 varchar2(1000),
+CFILESRC3 varchar2(1000),
+CFILESRC4 varchar2(1000)
+);
+
+
+
+//포린키
+ALTER TABLE recipe_reply
+
+ADD CONSTRAINTS rnum FOREIGN KEY (rnum) 
+
+REFERENCES recipe_board(rnum);
+
+//관리자아이디
+create table admin(
+aid varchar2(50) primary key,
+apass varchar2(10)
+);
+insert into admin values('ADMIN',123456);
+//공지사항
+create table adminnotice(
+anum number(4) primary key,
+aid varchar2(20),
+acategory varchar2(50),
+atitle varchar2(50),
+acontent varchar2(3000),
+adate Date default sysdate,
+ahit number(4) default 0,
+astep number(4),
+aindent number(4)
+);
+
+ALTER TABLE adminnotice
+ADD CONSTRAINT aid foreign KEY (aid) 
+REFERENCES admin(aid); 
+
+//게시판댓글
+create table nreply(
+nid number(4),
+rpnum number(4),
+rpid varchar2(50),
+rpcontent varchar2(500),
+rpdate Date default sysdate,
+rpgroup varchar2(100),
+rpstep varchar2(1000),
+rpindent varchar2(500)
+);
+
+ALTER TABLE nreply
+
+ADD CONSTRAINTS nid FOREIGN KEY (nid) 
+
+REFERENCES notice(nid);
+
+//게시판
+create table notice(
+nid number (4) PRIMARY key,
+gid varchar2(35),
+nname varchar2(50),
+ntitle varchar2(50),
+ncontent varchar2(3000),
+ndate date default sysdate,
+nhit number(4) default 0,
+ngroup number (4),
+nstep number (4),
+nindent number (4)
+);
+
+create SEQUENCE notice_seq;
+create SEQUENCE rpnum_seq;
+create SEQUENCE recipe_board_seq;
+create SEQUENCE RECIPE_REPLY_SEQ;
+create SEQUENCE adminnotice_seq;
+
+고객
+CREATE TABLE u_user(
+user_id varchar2(50) not null,
+user_pw varchar2(100) not null,
+user_name varchar2(100) not null,
+user_email varchar2(50) not null,
+user_point int not null, 
+session_key varchar2(50) not null,
+session_limit timestamp,
+user_img varchar2(100) not null,
+user_join_date timestamp not null,
+user_login_date timestamp not null,
+user_signature varchar2(200) not null,
+primary key(user_id)
+);
+
+
+
+ALTER TABLE u_user MODIFY(user_point default 0);
+ALTER TABLE u_user MODIFY(session_key default 'none');
+ALTER TABLE u_user MODIFY(user_img default 'user/default-user.png');
+ALTER TABLE u_user MODIFY(user_join_date default sysdate);
+ALTER TABLE u_user MODIFY(user_login_date default sysdate);
+ALTER TABLE u_user MODIFY(user_signature default '안녕');
+
+SELECT count(*) from u_user;
+
+insert into u_user values('qwg18066','qwe123','야미','car1806@naver.com');
+
+
+drop table u_user;
+
+select * from u_user;
+
+
+
+//공지사항 댓글
+create table mreply(
+anum number(4),
+mrnum number(4),
+mrid varchar2(50),
+mrcontent varchar2(500),
+mrdate Date default sysdate,
+mrgroup varchar2(100),
+mrstep varchar2(1000),
+mrindent varchar2(500)
+);
+ 
+create SEQUENCE mreply_seq;
+commit;

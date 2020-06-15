@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.main.one.dao.IDao">
+	<!-- 메인 -->
+	<select id="main_list" resultType="com.main.one.dto.BoardDto">
+		SELECT RNUM,RID,RNAME,RTITLE,RCATEGORY,RSERVES,RTIME,RLEVEL,RINFORMATION,RINGREDIENTS,RFILESRC,RDATE,RHIT FROM 
+		(SELECT RNUM,RID,RNAME,RTITLE,RCATEGORY,RSERVES,RTIME,RLEVEL,RINFORMATION,RINGREDIENTS,RFILESRC,RDATE,RHIT, ROW_NUMBER() 
+		OVER(ORDER BY RNUM DESC) B_SEQ FROM RECIPE_BOARD
+		) WHERE B_SEQ BETWEEN #{param1} AND #{param2}
+	</select>
+	
+	<select id="main_list2" resultType="com.main.one.dto.BoardDto">
+		SELECT RNUM,RID,RNAME,RTITLE,RCATEGORY,RSERVES,RTIME,RLEVEL,RINFORMATION,RINGREDIENTS,RFILESRC,RDATE,RHIT FROM 
+		(SELECT RNUM,RID,RNAME,RTITLE,RCATEGORY,RSERVES,RTIME,RLEVEL,RINFORMATION,RINGREDIENTS,RFILESRC,RDATE,RHIT, ROW_NUMBER() 
+		OVER(ORDER BY RHIT DESC) B_SEQ FROM RECIPE_BOARD
+		) WHERE B_SEQ BETWEEN #{param1} AND #{param2}
+	</select>
+	
+	
+
+	<!-- 레시피 -->
+	<sql id="includeList">
+		WHERE (RCATEGORY LIKE '%'||#{param3}||'%' and (RTITLE LIKE '%'||#{param4}||'%' or RINGREDIENTS LIKE '%'||#{param4}||'%'))         
+	</sql>
+
+	<select id="recipe_list" resultType="com.main.one.dto.BoardDto">
+		SELECT RNUM,RID,RNAME,RTITLE,RCATEGORY,RSERVES,RTIME,RLEVEL,RINFORMATION,RINGREDIENTS,RFILESRC,RDATE,RHIT FROM 
+		(SELECT RNUM,RID,RNAME,RTITLE,RCATEGORY,RSERVES,RTIME,RLEVEL,RINFORMATION,RINGREDIENTS,RFILESRC,RDATE,RHIT, ROW_NUMBER() 
+		OVER(ORDER BY RNUM DESC) B_SEQ FROM RECIPE_BOARD
+		<include refid="includeList" />
+		) WHERE B_SEQ BETWEEN #{param1} AND #{param2}
+	</select>
+	
+	<select id="recipe_list2" resultType="com.main.one.dto.BoardDto">
+		SELECT RNUM,RID,RNAME,RTITLE,RCATEGORY,RSERVES,RTIME,RLEVEL,RINFORMATION,RINGREDIENTS,RFILESRC,RDATE,RHIT FROM 
+		(SELECT RNUM,RID,RNAME,RTITLE,RCATEGORY,RSERVES,RTIME,RLEVEL,RINFORMATION,RINGREDIENTS,RFILESRC,RDATE,RHIT, ROW_NUMBER() 
+		OVER(ORDER BY RHIT DESC) B_SEQ FROM RECIPE_BOARD
+		<include refid="includeList" />
+		) WHERE B_SEQ BETWEEN #{param1} AND #{param2}
+	</select>
+	
+	<select id="recipe_count" resultType="Integer">
+		SELECT COUNT(*) FROM RECIPE_BOARD
+	</select>
+
+	<select id="reply_list1" resultType="com.main.one.dto.BoardDto">
+		SELECT PNUM,PID,PNAME,PCONTENT,PDATE,PGROUP,PSTEP,PINDENT,RNUM FROM
+		(SELECT PNUM,PID,PNAME,PCONTENT,PDATE,PGROUP,PSTEP,PINDENT,RNUM, ROW_NUMBER() 
+ 		OVER(ORDER BY PGROUP DESC, PSTEP ASC)B_SEQ FROM RECIPE_REPLY)
+		WHERE B_SEQ BETWEEN 1 AND 5 AND RNUM=#{param1}
+	</select>
+
+	<select id="reply_list2" resultType="com.main.one.dto.BoardDto">
+		SELECT PNUM,PID,PNAME,PCONTENT,PDATE,PGROUP,PSTEP,PINDENT,RNUM FROM
+		(SELECT PNUM,PID,PNAME,PCONTENT,PDATE,PGROUP,PSTEP,PINDENT,RNUM, ROW_NUMBER() 
+		OVER(ORDER BY PGROUP DESC, PSTEP ASC)B_SEQ FROM RECIPE_REPLY)
+		WHERE B_SEQ BETWEEN 6 AND #{param1} AND RNUM=#{param2}
+	</select>
+
+	<select id="recipe_view" resultType="com.main.one.dto.BoardDto">
+		SELECT * FROM RECIPE_BOARD WHERE RNUM=#{param1}
+	</select>
+	
+	<update id="upRhit">
+		UPDATE RECIPE_BOARD SET RHIT=RHIT+1 WHERE RNUM=#{param1}
+	</update>
+
+	<insert id="recipe_write">
+		INSERT INTO RECIPE_BOARD VALUES(RECIPE_BOARD_SEQ.NEXTVAL,
+		#{param20},#{param21},#{param1},#{param2},#{param3},#{param4},#{param5},
+		#{param6},#{param7},#{param8},#{param9},SYSDATE,0,#{param10},
+		#{param11},#{param12},#{param13},#{param14},#{param15},#{param16},
+		#{param17},#{param18},#{param19})
+	</insert>
+
+	<delete id="recipe_delete">
+		DELETE FROM RECIPE_BOARD WHERE RNUM=#{param1}
+	</delete>
+
+	<update id="recipe_modify">
+		UPDATE RECIPE_BOARD SET RTITLE=#{param1}, RCATEGORY=#{param2}, RSERVES=#{param3}, 
+		RTIME=#{param4}, RLEVEL=#{param5}, RINFORMATION=#{param6}, RINGREDIENTS=#{param7},
+		RTIP=#{param8}, RFILESRC=#{param9}, STEP1=#{param10}, STEP2=#{param11},
+		STEP3=#{param12}, STEP4=#{param13}, STEP5=#{param14}, STEP6=#{param15},
+		CFILESRC1=#{param16}, CFILESRC2=#{param17}, CFILESRC3=#{param18}, 
+		CFILESRC4=#{param19} WHERE RNUM=#{param20}
+	</update>
+
+	<insert id="reply_write">
+		INSERT INTO RECIPE_REPLY VALUES(#{param4},RECIPE_REPLY_SEQ.NEXTVAL, 
+		#{param1},#{param2},#{param3},SYSDATE,RECIPE_REPLY_SEQ.CURRVAL,0,0)
+	</insert>
+
+	<delete id="reply_delete">
+		DELETE FROM RECIPE_REPLY WHERE PNUM=#{param1}
+	</delete>
+	
+	<delete id="all_reply_delete">
+		DELETE FROM RECIPE_REPLY WHERE RNUM=#{param1}
+	</delete>
+
+	<insert id="filewrite">
+		INSERT INTO FILEUPLOAD VALUES(#{param1})
+	</insert>
+
+	<select id="reply_reply_view" resultType="com.main.one.dto.BoardDto">
+		SELECT * FROM RECIPE_REPLY WHERE PNUM=#{param1}
+	</select>
+
+	<insert id="reply_reply">
+		INSERT INTO RECIPE_REPLY VALUES(#{param5},RECIPE_REPLY_SEQ.NEXTVAL,
+		#{param6},#{param7},#{param1},SYSDATE,#{param2},#{param3}+1,#{param4}+1)
+	</insert>
+
+	<update id="stepup">
+		UPDATE RECIPE_REPLY SET PSTEP=PSTEP+1 WHERE (PGROUP=#{param1} AND PSTEP>#{param2})
+	</update>
+
+	<select id="reply_count" resultType="Integer">
+		SELECT COUNT(*) FROM RECIPE_REPLY WHERE RNUM=#{param1}
+	</select>
+	
+	<select id="search_recipe_count" resultType="Integer">
+		SELECT COUNT(*) FROM RECIPE_BOARD WHERE (RCATEGORY LIKE '%'||#{param1}||'%' AND 
+		(RTITLE LIKE '%'||#{param2}||'%' or RINGREDIENTS LIKE '%'||#{param2}||'%'))
+	</select>
+
+
+
+	<!-- 셰프 -->
+	<select id="chef_list" resultType="com.main.one.dto.BoardDto">
+		SELECT * FROM U_USER ORDER BY RCNT DESC, USER_JOIN_DATE ASC
+	</select>
+	
+	<update id="upRcnt">
+		UPDATE U_USER SET RCNT=RCNT+1 WHERE USER_ID=#{param1}
+	</update>
+	
+	<update id="downRcnt">
+		UPDATE U_USER SET RCNT=RCNT-1 WHERE USER_ID=#{param1}
+	</update>
+ 	
+ 	<select id="chef_count" resultType="Integer">
+		SELECT COUNT(*) FROM U_USER
+	</select> 
+
+
+	
+	<!-- 마이페이지 -->
+	<select id="mypage_recipe" resultType="com.main.one.dto.BoardDto">
+		SELECT RNUM,RID,RNAME,RTITLE,RCATEGORY,RSERVES,RTIME,RLEVEL,RINFORMATION,RINGREDIENTS,RFILESRC,RDATE,RHIT FROM 
+		(SELECT RNUM,RID,RNAME,RTITLE,RCATEGORY,RSERVES,RTIME,RLEVEL,RINFORMATION,RINGREDIENTS,RFILESRC,RDATE,RHIT, ROW_NUMBER() 
+		OVER(ORDER BY RNUM DESC) B_SEQ FROM RECIPE_BOARD WHERE RID=#{param3}
+		) WHERE B_SEQ BETWEEN #{param1} AND #{param2}
+	</select>
+	
+	<select id="myrecipe_count" resultType="Integer">
+		SELECT COUNT(*) FROM RECIPE_BOARD WHERE RID=#{param1}
+	</select>
+ 
+</mapper>
